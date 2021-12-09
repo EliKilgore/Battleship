@@ -17,6 +17,10 @@ const shipFactory = (id, length, startCoord, isVertical = false) => {
         }
     }
 
+    if (hitLocations.length === 0) {
+        generateLocations()
+    }
+
     const hit = (n) => {
         for (let i=0; i < length; i++) {
             if (hitLocations[i].coord === n) {
@@ -31,9 +35,5 @@ const shipFactory = (id, length, startCoord, isVertical = false) => {
 
     return { id, length, startCoord, hitLocations, generateLocations, hit, isSunk }
 }
-
-
-
-
 
 module.exports = shipFactory
