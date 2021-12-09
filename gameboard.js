@@ -1,41 +1,51 @@
-import shipFactory from "./ship"
+import ship from "./ship"
 
-const gameboardFactory = () => {
-    const boardInfo = {
-        board: [],
-        ships: []
-    }
+const gameboard = () => {
+
+    const boardInfo = []
+
+    const ships = []
 
     const fillBoard = () => {
         for (let i=0; i<100; i++) {
-            boardInfo.board.push({ship:false, beenHit: false})
+            boardInfo.push({ship:false, beenHit: false})
         }
     }
 
-    if (boardInfo.board.length === 0) {
+    if (boardInfo.length === 0) {
         fillBoard()
     }
 
     const placeShip = (ship) => {
-        boardInfo.ships.push(ship)
-        for (let i=0; i < ship.length;i++) {
-            let coord = ship.hitLocations[i].coord
-            boardInfo.board[coord].ship = ship
+        ships.push(ship)
+        let coords = ship.getCoords()
+        if (checkCollision(coords)) {
+            return 'ERROR'
+        } else {
+            for (let i=0; i < coords.length; i++) {
+                boardInfo[coords[i]].ship = ship
+            }
+        }
+    }
+
+    const checkCollision = (coords) => {
+        for (let coord in coords) {
+            return boardInfo[coord].ship
         }
     }
 
     const markHit = (coord) => {
-        boardInfo.board[coord].beenHit = true
-        if (boardInfo.board[coord].ship) {
-            boardInfo.board[coord].ship.hit(coord)
+        boardInfo[coord].beenHit = true
+        if (boardInfo[coord].ship) {
+            boardInfo[coord].ship.hit(coord)
         }
     }
 
     const allSunk = () => {
-        return boardInfo.ships.every(ship => ship.isSunk()===true)
+        return ships.every(ship => ship.isSunk()===true)
     }
 
-    return { boardInfo, fillBoard, placeShip, markHit, allSunk }
+    return { boardInfo, ships, fillBoard, placeShip, checkCollision, markHit, allSunk }
 }
 
-module.exports = gameboardFactory
+module.exports = gameboard

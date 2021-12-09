@@ -1,50 +1,38 @@
-const shipFactory = require('./ship')
+const ship = require('./ship')
 
 test('generates ship with length 5', () => {
-    expect(shipFactory(1, 5, 0).length).toBe(5)
+    expect(ship(1, 5, 0).length).toBe(5)
   })
   
-  test('generates hit locations', () => {
-      let ship = shipFactory(1, 5, 0)
-      expect(ship.hitLocations.length).toBe(5)
-  })
-  
-  test('marks hit locations', () => {
-      let ship = shipFactory(1, 1, 0)
-      ship.hit(0)
+test('marks hits', () => {
+      let ship1 = ship(1, 1, 0)
+      ship1.hit(0)
       expect(
-          ship.hitLocations[0].hit
+          ship1.hitLocations[0].hit
       ).toBe(true)
   })
   
-  test('generates correct location', () => {
-      let ship = shipFactory(1, 5, 0)
+test('sinks the ship', () => {
+      let ship1 = ship(1, 3, 0)
+      ship1.hit(0)
+      ship1.hit(1)
+      ship1.hit(2)
       expect(
-          ship.hitLocations[4].coord===4
-      ).toBeTruthy()
+          ship1.isSunk()
+      ).toBe(true)
   })
   
-  test('generates correct vertical location', () => {
-      let ship = shipFactory(1, 5, 0, true)
+test ('does not sink ship', () => {
+      let ship1 = ship(1, 3, 0)
+      ship1.hit(0)
       expect(
-          ship.hitLocations[4].coord===40
-      ).toBeTruthy()
-  })
-  
-  test('sinks the ship', () => {
-      let ship = shipFactory(1, 3, 0, true)
-      ship.hit(0)
-      ship.hit(10)
-      ship.hit(20)
-      expect(
-          ship.isSunk()
-      ).toBeTruthy()
-  })
-  
-  test ('does not sink ship', () => {
-      let ship = shipFactory(1, 3, 0, true)
-      ship.hit(0)
-      expect(
-          ship.isSunk()
+          ship1.isSunk()
       ).toBe(false)
   })
+
+test ('generates coordinates', () => {
+    let ship1 = ship(1, 3, 0, true)
+    expect(
+        ship1.hitLocations[2].coord
+    ).toBe(20)
+})

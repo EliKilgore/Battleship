@@ -1,10 +1,18 @@
 const player = require('./player')
-const gameboardFactory = require('./gameboard')
-const shipFactory = require('./ship')
+const gameboard = require('./gameboard')
+const ship = require('./ship')
 
 test ('Player has gameboard', () => {
     let eli = player()
     expect(
-        eli.playerInfo.gameBoard.boardInfo.board.length
+        eli.gameBoard.boardInfo.length
     ).toBe(100)
+})
+
+test ('computer makes random shot', () => {
+    let eli = player()
+    eli.getRandomMove()
+    expect(
+        eli.shots.length
+    ).toBe(1)
 })

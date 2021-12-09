@@ -1,4 +1,4 @@
-const shipFactory = (id, length, startCoord, isVertical = false) => {
+const ship = (id, length, startCoord, isVertical = false) => {
     
     let hitLocations = []
 
@@ -15,6 +15,13 @@ const shipFactory = (id, length, startCoord, isVertical = false) => {
             }
             hitLocations.push(location)
         }
+    }
+    const getCoords = () => {
+        let coords = []
+        for (let i = 0; i<length; i++) {
+            coords.push(hitLocations[i].coord)
+        }
+        return coords
     }
 
     if (hitLocations.length === 0) {
@@ -33,7 +40,7 @@ const shipFactory = (id, length, startCoord, isVertical = false) => {
         return hitLocations.every(location => location.hit===true)
     }
 
-    return { id, length, startCoord, hitLocations, generateLocations, hit, isSunk }
+    return { id, length, startCoord, isVertical, hitLocations, getCoords, hit, isSunk }
 }
 
-module.exports = shipFactory
+module.exports = ship
