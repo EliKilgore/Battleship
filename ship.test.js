@@ -31,8 +31,9 @@ test ('does not sink ship', () => {
   })
 
 test ('generates coordinates', () => {
-    let ship1 = ship(1, 3, 0, true)
+    let ship1 = ship(1, 3, 99, true)
     expect(
         ship1.hitLocations[2].coord
-    ).toBe(20)
+    ).toBe(119)
 })
+

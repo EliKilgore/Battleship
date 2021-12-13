@@ -44,3 +44,4 @@ const ship = (id, length, startCoord, isVertical = false) => {
 }
 
 module.exports = ship
+

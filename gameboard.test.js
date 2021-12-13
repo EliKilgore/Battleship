@@ -76,6 +76,32 @@ test('gameboard checks for collision when placing ships', () => {
     let ship2 = ship (2, 2, 20)
     player1.placeShip(ship1)
     expect (
-        player1.placeShip(ship2)
-    ).toBe('ERROR')
+        player1.checkCollision(ship2.getCoords())
+    ).toBe(true)
+})
+
+test ('gameboard recognizes when ship is going off the bottom of the board', () => {
+    let player1 = gameboard()
+    let ship1 = ship(1, 5, 98, true)
+    expect (
+        player1.checkCollision(ship1.getCoords())
+    ).toBe(true)
+})
+
+test ('gameboard recognizes when ships is placed overlapping rows', () => {
+    let player1 = gameboard()
+    let ship1 = ship(1, 5, 9)
+    expect (
+        player1.checkCollision(ship1.getCoords())
+    ).toBe(true)
+})
+
+test ('gameboard recognizes when there is NOT collision', () => {
+    let player1 = gameboard()
+    let ship1 = ship(1, 3, 0, true)
+    player1.placeShip(ship1)
+    let ship2 = ship(2, 2, 36, false)
+    expect (
+        player1.checkCollision(ship2.getCoords())
+    ).toBe(false)
 })

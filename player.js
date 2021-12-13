@@ -1,8 +1,8 @@
-import gameboardFactory from './gameboard'
-import shipFactory from './ship'
+import gameboard from './gameboard'
+import ship from './ship'
 
 const player = () => {
-    const gameBoard = gameboardFactory()
+    const gameBoard = gameboard()
     const shots = []
 
     const getRandomMove = () => {

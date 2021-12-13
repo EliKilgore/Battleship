@@ -17,21 +17,25 @@ const gameboard = () => {
     }
 
     const placeShip = (ship) => {
-        ships.push(ship)
         let coords = ship.getCoords()
-        if (checkCollision(coords)) {
-            return 'ERROR'
-        } else {
-            for (let i=0; i < coords.length; i++) {
-                boardInfo[coords[i]].ship = ship
-            }
+        ships.push(ship)
+        for (let i=0; i < coords.length; i++) {
+            boardInfo[coords[i]].ship = ship
         }
+        
     }
 
     const checkCollision = (coords) => {
-        for (let coord in coords) {
-            return boardInfo[coord].ship
+        let collision = null
+        for (let i = 0; i < coords.length; i++) {
+            if (coords[i] > boardInfo.length || boardInfo[coords[i]].ship || (coords[i]%10 < coords[0]%10)) {
+                collision = true
+                break
+            } else {
+                collision = false
+            }
         }
+        return collision
     }
 
     const markHit = (coord) => {
@@ -45,7 +49,16 @@ const gameboard = () => {
         return ships.every(ship => ship.isSunk()===true)
     }
 
-    return { boardInfo, ships, fillBoard, placeShip, checkCollision, markHit, allSunk }
+    const getFilledSlots = () => {
+        let filledSlots = 0
+        for (let i=0; i < boardInfo.length; i++) {
+            if (boardInfo[i].ship) {
+                filledSlots += 1
+            }
+        }
+        return filledSlots
+    }
+    return { boardInfo, ships, fillBoard, placeShip, checkCollision, markHit, allSunk, getFilledSlots }
 }
 
 module.exports = gameboard
